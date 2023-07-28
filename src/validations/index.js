@@ -1,11 +1,14 @@
 import { checkSchema } from 'express-validator'
+import convertToObjectId from '../utility/convertToObjectId.js'
 
 export const IDValidation = checkSchema({
   id: {
     trim: true,
-    isUUID: {
-      options: 4,
-      errorMessage: 'ID must be a UUID4',
+    isMongoId: {
+      errorMessage: 'Invalid ID',
+    },
+    customSanitizer: {
+      options: (value) => convertToObjectId(value),
     },
   },
 })
